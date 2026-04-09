@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>시니어 전문가 스팟 매칭 플랫폼</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border-bottom: 1px solid #1e293b;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: #38bdf8;
+    }
+    .logo span { color: #f59e0b; }
+    nav a {
+      color: #94a3b8;
+      text-decoration: none;
+      margin-left: 24px;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: #f1f5f9; }
+    nav a.btn-primary {
+      background: #2563eb;
+      color: #fff;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    nav a.btn-primary:hover { background: #1d4ed8; }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 80px 24px 60px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: #38bdf8;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: 44px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 20px;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 18px;
+      color: #94a3b8;
+      line-height: 1.7;
+      margin-bottom: 36px;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-blue {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+    }
+    .btn-blue:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(37, 99, 235, 0.4); }
+    .btn-outline {
+      background: transparent;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+    }
+    .btn-outline:hover { border-color: #64748b; background: #1e293b; }
+
+    /* Stats */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      padding: 40px 24px;
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-value {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #38bdf8, #34d399);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: 14px; color: #64748b; margin-top: 4px; }
+
+    /* Features */
+    .features {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+    .features h2 {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 48px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid #1e293b;
+      border-radius: 16px;
+      padding: 32px;
+      transition: border-color 0.3s;
+    }
+    .feature-card:hover { border-color: #334155; }
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+    .feature-card h3 { font-size: 18px; margin-bottom: 8px; color: #f1f5f9; }
+    .feature-card p { font-size: 14px; color: #94a3b8; line-height: 1.6; }
+    .icon-blue { background: rgba(56, 189, 248, 0.15); }
+    .icon-purple { background: rgba(129, 140, 248, 0.15); }
+    .icon-green { background: rgba(52, 211, 153, 0.15); }
+    .icon-amber { background: rgba(245, 158, 11, 0.15); }
+    .icon-rose { background: rgba(251, 113, 133, 0.15); }
+    .icon-cyan { background: rgba(34, 211, 238, 0.15); }
+
+    /* How it works */
+    .how-it-works {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+    .how-it-works h2 { text-align: center; font-size: 32px; margin-bottom: 48px; }
+    .steps { position: relative; }
+    .steps::before {
+      content: '';
+      position: absolute;
+      left: 24px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, #2563eb, #7c3aed, #ec4899);
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    .step-num {
+      width: 50px;
+      height: 50px;
+      min-width: 50px;
+      border-radius: 50%;
+      background: #1e293b;
+      border: 2px solid #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: #38bdf8;
+      z-index: 1;
+    }
+    .step-content h3 { font-size: 18px; margin-bottom: 6px; }
+    .step-content p { font-size: 14px; color: #94a3b8; line-height: 1.6; }
+
+    /* API Status */
+    .api-section {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 60px 24px;
+      text-align: center;
+    }
+    .api-section h2 { font-size: 28px; margin-bottom: 16px; }
+    .api-section p { color: #94a3b8; margin-bottom: 32px; }
+    .api-status {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 16px;
+    }
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #22c55e;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .api-endpoints {
+      margin-top: 24px;
+      text-align: left;
+      background: #0d1117;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 24px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 13px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .endpoint {
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #1e293b;
+    }
+    .endpoint:last-child { border-bottom: none; }
+    .method {
+      font-weight: 700;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      min-width: 50px;
+      text-align: center;
+    }
+    .method-get { background: rgba(52, 211, 153, 0.15); color: #34d399; }
+    .method-post { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+    .method-put { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+    .endpoint-path { color: #94a3b8; }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid #1e293b;
+      color: #475569;
+      font-size: 13px;
+    }
+    footer a { color: #64748b; text-decoration: none; }
+    footer a:hover { color: #94a3b8; }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 28px; }
+      .stats { gap: 24px; }
+      .stat-value { font-size: 28px; }
+      nav a { margin-left: 12px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Senior<span>Expert</span></div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#how">Process</a>
+      <a href="#api">API</a>
+      <a href="#api" class="btn-primary">Get Started</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-badge">Phase 1 MVP Live</div>
+    <h1>20년 경력 <em>시니어 전문가</em>를<br>당신의 프로젝트에</h1>
+    <p>
+      은퇴 전문 인력과 기업을 연결하는 스팟 매칭 플랫폼.<br>
+      에스크로 결제, 일일 정산, 원천징수까지 자동화합니다.
+    </p>
+    <div class="hero-buttons">
+      <a href="#api" class="btn btn-blue">API Documentation</a>
+      <a href="#how" class="btn btn-outline">How It Works</a>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-value">25+</div>
+      <div class="stat-label">API Endpoints</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">12</div>
+      <div class="stat-label">DB Tables</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">3.3%</div>
+      <div class="stat-label">Auto Withholding Tax</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">30만+</div>
+      <div class="stat-label">Min Daily Rate (KRW)</div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <h2>Core Features</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon icon-blue">&#128100;</div>
+        <h3>Expert Matching</h3>
+        <p>산업별, 경력별 시니어 전문가를 검색하고, 프로젝트에 최적화된 인재를 매칭합니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-purple">&#128176;</div>
+        <h3>Escrow Payment</h3>
+        <p>Toss Payments 연동 에스크로 시스템으로 안전한 거래를 보장합니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-green">&#9989;</div>
+        <h3>Daily Settlement</h3>
+        <p>전문가 업무 완료 체크 → 클라이언트 확인 → 자동 일일 정산 프로세스.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-amber">&#128202;</div>
+        <h3>Auto Tax Withholding</h3>
+        <p>3.3% 원천징수 자동 계산 및 적용. 세무 처리 부담을 줄여줍니다.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-rose">&#128274;</div>
+        <h3>Security Hardened</h3>
+        <p>JWT 인증, Rate Limiting, XSS 방지, CORS 제한, Mass Assignment 보호.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon icon-cyan">&#128172;</div>
+        <h3>Messaging</h3>
+        <p>프로젝트 관계자 간 실시간 메시지 시스템으로 원활한 소통을 지원합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works" id="how">
+    <h2>How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>프로젝트 등록</h3>
+          <p>클라이언트가 필요한 전문 분야, 기간, 예산을 포함한 프로젝트를 등록합니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>제안서 제출</h3>
+          <p>시니어 전문가가 프로젝트를 검토하고 자신의 경력과 일일 단가를 포함한 제안서를 제출합니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>에스크로 입금</h3>
+          <p>클라이언트가 제안을 수락하면 계약이 생성되고, 에스크로에 총 금액을 안전하게 입금합니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>일일 정산</h3>
+          <p>매일 전문가가 업무 완료를 체크하고, 클라이언트가 확인하면 자동으로 일일 단가가 정산됩니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h3>프로젝트 완료</h3>
+          <p>모든 근무일 정산 완료 시 계약이 자동 완료되고, 상호 리뷰를 남길 수 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="api-section" id="api">
+    <h2>API Status</h2>
+    <p>Phase 1 MVP Backend API is running</p>
+    <div class="api-status">
+      <div class="status-dot"></div>
+      <span id="api-status-text">Checking...</span>
+    </div>
+    <div class="api-endpoints">
+      <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/auth/register</span></div>
+      <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/auth/login</span></div>
+      <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/experts</span></div>
+      <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/projects</span></div>
+      <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/projects</span></div>
+      <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/proposals</span></div>
+      <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/contracts/:id</span></div>
+      <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/contracts/:id/escrow/deposit</span></div>
+      <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/contracts/:id/daily-check</span></div>
+      <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/contracts/:id/daily-confirm</span></div>
+      <div class="endpoint"><span class="method method-post">POST</span><span class="endpoint-path">/api/messages</span></div>
+      <div class="endpoint"><span class="method method-get">GET</span><span class="endpoint-path">/api/messages</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 SeniorExpert Platform &mdash; Phase 1 MVP</p>
+    <p style="margin-top:8px;">
+      <a href="https://github.com/felix675lt/value-" target="_blank">GitHub</a>
+    </p>
+  </footer>
+
+  <script>
+    fetch('/api/health')
+      .then(r => r.json())
+      .then(d => {
+        document.getElementById('api-status-text').textContent =
+          'Online — ' + new Date(d.timestamp).toLocaleString('ko-KR');
+      })
+      .catch(() => {
+        document.getElementById('api-status-text').textContent = 'Offline';
+        document.querySelector('.status-dot').style.background = '#ef4444';
+      });
+  </script>
+</body>
+</html>

@@ -16,7 +16,12 @@ if (process.env.NODE_ENV === 'production') {
 const app = express();
 
 // Middleware
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: false, // allow inline styles/scripts for landing page
+}));
+
+// Static files (landing page)
+app.use(express.static(require('path').resolve(__dirname, '../public')));
 
 // [HIGH] CORS — 허용 도메인 제한
 app.use(cors({
